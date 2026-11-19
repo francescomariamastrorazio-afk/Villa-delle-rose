@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Villa delle Rose — Monticchio, Vulture Regional Park | Digital Brochure</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Refined editorial typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for crisp icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- QRCode.js for live shareable QR Code generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#FBF9F5',
+            cream: '#F4EFE6',
+            forest: '#1D3327',
+            forestLight: '#2D4B3B',
+            gold: '#B68D40',
+            goldLight: '#D4B475',
+            terracotta: '#C57B67',
+            charcoal: '#242422',
+            muted: '#5E5C56'
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom styles for smooth transitions, editorial texture, and PDF print layout */
+    body {
+      background-color: #EFEAE1;
+      color: #242422;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Luxury editorial sheet elevation on desktop */
+    .brochure-shell {
+      box-shadow: 0 25px 60px -15px rgba(29, 51, 39, 0.22);
+    }
+
+    /* Page transition animation */
+    .brochure-page {
+      display: none;
+      animation: pageFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .brochure-page.active {
+      display: block;
+    }
+
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.992);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Subtle botanical gold hairline */
+    .gold-hairline {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #B68D40, transparent);
+    }
+
+    /* Custom refined scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FBF9F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D4B475;
+      border-radius: 9999px;
+    }
+
+    /* Print / Export PDF Mode: renders all 6 pages sequentially */
+    @media print {
+      body {
+        background: #FFFFFF !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .brochure-shell {
+        box-shadow: none !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        border: none !important;
+      }
+      .brochure-page {
+        display: block !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+        break-after: page;
+        border-bottom: 1px solid #E5DFD3;
+        padding-bottom: 2rem;
+      }
+      .brochure-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between py-0 sm:py-6 px-0 sm:px-4">
+
+  <!-- TOP QUICK NAVIGATION BAR (Mobile & Desktop) -->
+  <header class="no-print w-full max-w-4xl bg-forest text-ivory px-3 sm:px-4 py-3 sm:rounded-t-2xl flex items-center justify-between sticky top-0 z-40 shadow-md gap-2">
+    <div class="flex items-center gap-2.5 cursor-pointer shrink-0" onclick="goToPage(1)">
+      <span class="w-8 h-8 rounded-full border border-gold/60 flex items-center justify-center text-gold font-serif text-lg font-semibold">VR</span>
+      <div>
+        <p class="font-serif text-base sm:text-lg tracking-wider leading-none uppercase">Villa delle Rose</p>
+        <p class="text-[10px] tracking-[0.2em] text-goldLight uppercase mt-0.5">Monticchio • Vulture</p>
+      </div>
+    </div>
+
+    <!-- Quick Controls: Index, Media Loader & QR Code -->
+    <div class="flex items-center gap-1.5 sm:gap-2">
+      <span id="headerPageCounter" class="hidden sm:inline-block text-xs tracking-widest text-ivory/80 font-medium px-2.5 py-1 rounded-full bg-forestLight/80 border border-gold/30">
+        01 / 06
+      </span>
+      <button onclick="toggleMediaModal()" aria-label="Load or verify media files" class="px-2.5 sm:px-3 py-1.5 rounded-full bg-terracotta/25 hover:bg-terracotta/40 border border-gold/45 text-ivory text-xs font-medium tracking-wider uppercase transition flex items-center gap-1.5" title="Link or verify local photo & video files">
+        <i class="fa-solid fa-photo-film text-[11px] text-goldLight"></i>
+        <span>Media</span>
+      </button>
+      <button onclick="toggleTocModal()" aria-label="Table of Contents" class="px-2.5 sm:px-3 py-1.5 rounded-full bg-gold/20 hover:bg-gold/30 border border-gold/50 text-goldLight text-xs font-medium tracking-wider uppercase transition flex items-center gap-1.5">
+        <i class="fa-solid fa-book-open text-[11px]"></i>
+        <span class="hidden xs:inline">Index</span>
+      </button>
+      <button onclick="goToPage(6)" aria-label="Share QR Code" class="p-2 rounded-full bg-gold text-forest hover:bg-goldLight transition shadow-sm" title="Show Shareable QR Code">
+        <i class="fa-solid fa-qrcode text-sm"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN BROCHURE CONTAINER (6 PAGES) -->
+  <main id="brochureContainer" class="brochure-shell w-full max-w-4xl bg-ivory sm:border-x border-gold/20 relative overflow-hidden flex-1">
+
+    <!-- =========================================================
+         PAGE 1: COVER
+    ========================================================= -->
+    <section id="page-1" class="brochure-page active" data-page="1">
+      <div class="relative min-h-[82vh] sm:min-h-[780px] flex flex-col justify-between bg-forest text-ivory overflow-hidden">
+        <!-- Cover Background Image: Historic Villa delle Rose surrounded by greenery -->
+        <div class="absolute inset-0 z-0">
+          <img 
+            id="img-villa-country"
+            data-media-key="VILLA DELLE ROSE FRONTALE.jpg"
+            src="VILLA%20DELLE%20ROSE%20FRONTALE.jpg" 
+            alt="Historic facade of Villa delle Rose immersed in lush greenery in Monticchio" 
+            class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000"
+          />
+          <!-- Editorial gradient overlay for crisp legibility -->
+          <div class="absolute inset-0 bg-gradient-to-b from-forest/75 via-forest/45 to-forest/95"></div>
+        </div>
+
+        <!-- Cover Header Badge -->
+        <div class="relative z-10 pt-8 sm:pt-12 px-6 sm:px-12 text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-forest/75 backdrop-blur-md border border-gold/50 text-goldLight text-[11px] sm:text-xs tracking-[0.22em] uppercase shadow-lg">
+            <i class="fa-solid fa-leaf text-gold text-[10px]"></i>
+            Vulture Regional Park • Monticchio (PZ)
+          </div>
+        </div>
+
+        <!-- Center Title & Editorial Frame -->
+        <div class="relative z-10 px-6 sm:px-14 my-auto py-10 text-center">
+          <div class="max-w-2xl mx-auto border border-gold/40 bg-forest/55 backdrop-blur-sm rounded-3xl p-7 sm:p-12 shadow-2xl">
+            <p class="text-goldLight text-xs sm:text-sm tracking-[0.35em] uppercase mb-3 font-medium">
+              Basilicata • Southern Italy
+            </p>
+            <h1 class="font-serif text-4xl sm:text-6xl font-semibold tracking-wide text-ivory leading-tight">
+              VILLA DELLE ROSE
+            </h1>
+            <p class="font-serif italic text-xl sm:text-2xl text-goldLight mt-1">
+              Monticchio • Vulture Regional Park, Basilicata
+            </p>
+            
+            <div class="gold-hairline my-6 w-3/4 mx-auto"></div>
+            
+            <p class="text-sm sm:text-base text-ivory/90 font-light leading-relaxed max-w-xl mx-auto">
+              <strong class="font-medium text-goldLight">An Exclusive Destination for Unforgettable Weddings &amp; Private Events</strong> — nestled in the volcanic nature of Mount Vulture, featuring expansive open-air grounds, a courtyard for civil &amp; Indian rituals, a scenic wooden gazebo, and an intimate country church.
+            </p>
+          </div>
+        </div>
+
+        <!-- Cover Footer & Interactive Prompts -->
+        <div class="relative z-10 pb-8 px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gold/25 pt-5 bg-forest/60 backdrop-blur-sm">
+          <div class="text-center sm:text-left">
+            <span class="text-[11px] uppercase tracking-[0.25em] text-goldLight/90 block">Interactive Digital Brochure • 6 Pages</span>
+            <span class="text-xs text-ivory/75">Civil &amp; Indian Mandap Ceremonies • Wooden Gazebo • Country Church</span>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2.5 w-full sm:w-auto">
+            <button onclick="openLightbox('VILLA DELLE ROSE FRONTALE.jpg', 'Villa delle Rose — Historic facade immersed in Monticchio greenery')" class="no-print w-full sm:w-auto px-4 py-3 rounded-full bg-forestLight/90 hover:bg-forestLight text-goldLight border border-gold/40 text-xs uppercase tracking-[0.15em] transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>Zoom Photo</span>
+            </button>
+            <button onclick="nextPage()" class="no-print w-full sm:w-auto px-6 py-3 rounded-full bg-gold hover:bg-goldLight text-forest font-semibold text-xs uppercase tracking-[0.18em] transition shadow-lg flex items-center justify-center gap-2">
+              <span>Explore Brochure</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PAGE 2: THE ESTATE & VULTURE REGIONAL PARK
+    ========================================================= -->
+    <section id="page-2" class="brochure-page" data-page="2">
+      <div class="p-6 sm:p-12 bg-ivory">
+        <!-- Chapter Header -->
+        <div class="flex items-center justify-between border-b border-gold/30 pb-4 mb-7">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold font-semibold">02 • The Estate &amp; Vulture Regional Park</span>
+          <span class="font-serif italic text-sm text-muted">Monticchio • Basilicata</span>
+        </div>
+
+        <!-- Page 2 Title -->
+        <div class="max-w-2xl mb-8">
+          <h2 class="font-serif text-3xl sm:text-5xl text-forest font-semibold leading-tight">
+            The Estate &amp; Vulture Regional Park
+          </h2>
+          <p class="font-serif italic text-lg sm:text-xl text-terracotta mt-2">
+            A serene natural sanctuary framed by the volcanic lakes of Monticchio and ancient chestnut woods.
+          </p>
+        </div>
+
+        <!-- Editorial Grid: Sunset Photo + Storytelling -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-7 items-center">
+          <!-- Golden Hour Panoramic Photo -->
+          <div class="md:col-span-6">
+            <div onclick="openLightbox('tramonto.jpg', 'Monticchio — Golden hour light across Vulture Regional Park')" class="relative rounded-2xl overflow-hidden shadow-xl border border-gold/25 group cursor-pointer">
+              <img 
+                data-media-key="tramonto.jpg"
+                src="tramonto.jpg" 
+                alt="Golden sunset through the trees and panoramic outdoor terraces at Villa delle Rose, Monticchio" 
+                class="w-full h-[360px] sm:h-[440px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+              />
+              <div class="absolute top-3 right-3 bg-forest/75 text-ivory px-2.5 py-1 rounded-full text-[11px] flex items-center gap-1.5 backdrop-blur-sm">
+                <i class="fa-solid fa-expand text-goldLight"></i>
+                <span>Zoom</span>
+              </div>
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-forest/90 via-forest/40 to-transparent p-4">
+                <p class="text-ivory text-xs tracking-wider uppercase font-medium flex items-center gap-2">
+                  <i class="fa-solid fa-sun text-gold"></i>
+                  Panoramic Outdoor Grounds • Vulture Regional Park
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Narrative & Key Highlights -->
+          <div class="md:col-span-6 space-y-5">
+            <p class="text-sm sm:text-base text-charcoal/90 leading-relaxed">
+              Set in the heart of <strong>Monticchio</strong>, inside the protected <strong>Vulture Regional Park</strong>, <strong>Villa delle Rose</strong> blends the unspoiled beauty of an ancient volcanic landscape with the refined warmth of a private estate designed for destination weddings.
+            </p>
+            <p class="text-sm sm:text-base text-charcoal/90 leading-relaxed">
+              Crafted for <strong>multi-day celebrations</strong>, intimate hospitality, and authentic Southern Italian charm, the estate allows couples, families, and international guests to unwind across sunlit terraces, shaded gardens, and scenic al fresco gathering spaces.
+            </p>
+
+            <!-- Immersive Experience Card -->
+            <div class="bg-cream rounded-2xl p-5 border border-gold/30 space-y-3.5 mt-4">
+              <h3 class="font-serif text-xl text-forest font-semibold flex items-center gap-2">
+                <i class="fa-solid fa-compass text-gold text-base"></i>
+                Landscape Heritage &amp; Hospitality
+              </h3>
+              <ul class="space-y-2.5 text-xs sm:text-sm text-charcoal/85">
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0"></span>
+                  <span><strong>Volcanic Nature &amp; Lakes:</strong> Moments away from the twin Lakes of Monticchio, immersed in tranquil woodland air.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0"></span>
+                  <span><strong>Multi-Day Destination Weddings:</strong> Bespoke weekend itineraries spanning welcome dinners, wedding rituals, and farewell brunches.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0"></span>
+                  <span><strong>Private Panoramic Terraces:</strong> Versatile outdoor settings bathed in natural light from morning to golden hour.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Dedicated International Accessibility Box -->
+            <div class="bg-forest text-ivory rounded-2xl p-4 sm:p-5 border border-gold/40 shadow-md">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] uppercase tracking-[0.2em] text-goldLight font-semibold flex items-center gap-1.5">
+                  <i class="fa-solid fa-plane-arrival text-gold"></i>
+                  International Accessibility
+                </span>
+                <span class="text-[11px] text-ivory/70">Driving distances</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-forestLight/90 rounded-xl p-2.5 border border-gold/25">
+                  <span class="text-[10px] uppercase tracking-wider text-goldLight block font-semibold">Salerno (QSR)</span>
+                  <span class="font-serif text-base sm:text-lg font-semibold text-ivory block mt-0.5">~115 km</span>
+                  <span class="text-[11px] text-ivory/75">1h 30m</span>
+                </div>
+                <div class="bg-forestLight/90 rounded-xl p-2.5 border border-gold/25">
+                  <span class="text-[10px] uppercase tracking-wider text-goldLight block font-semibold">Bari (BRI)</span>
+                  <span class="font-serif text-base sm:text-lg font-semibold text-ivory block mt-0.5">~135 km</span>
+                  <span class="text-[11px] text-ivory/75">1h 45m</span>
+                </div>
+                <div class="bg-forestLight/90 rounded-xl p-2.5 border border-gold/25">
+                  <span class="text-[10px] uppercase tracking-wider text-goldLight block font-semibold">Naples (NAP)</span>
+                  <span class="font-serif text-base sm:text-lg font-semibold text-ivory block mt-0.5">~165 km</span>
+                  <span class="text-[11px] text-ivory/75">2h 00m</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PAGE 3: THE COURTYARD & CEREMONIES — CIVIL & INDIAN MANDAP
+    ========================================================= -->
+    <section id="page-3" class="brochure-page" data-page="3">
+      <div class="p-6 sm:p-12 bg-ivory">
+        <!-- Chapter Header -->
+        <div class="flex items-center justify-between border-b border-gold/30 pb-4 mb-7">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold font-semibold">03 • The Courtyard &amp; Ceremonies</span>
+          <span class="font-serif italic text-sm text-muted">Civil Vows &amp; Indian Mandap</span>
+        </div>
+
+        <!-- Page 3 Title -->
+        <div class="max-w-3xl mb-7">
+          <h2 class="font-serif text-3xl sm:text-5xl text-forest font-semibold leading-tight">
+            The Courtyard: Civil Vows &amp; Indian Mandap Ceremonies
+          </h2>
+          <p class="font-serif italic text-lg sm:text-xl text-terracotta mt-2">
+            An expansive open-air courtyard ("La Corte") framed by bespoke floral artistry and timeless greenery.
+          </p>
+        </div>
+
+        <!-- Hero Courtyard Image with Mandap -->
+        <div onclick="openLightbox('CORTE CON MANDAP_2.jpeg', 'The Courtyard at Villa delle Rose — Bespoke floral Mandap and guest seating')" class="relative rounded-2xl overflow-hidden shadow-xl border border-gold/30 mb-8 group cursor-pointer">
+          <img 
+            data-media-key="CORTE CON MANDAP_2.jpeg"
+            src="CORTE%20CON%20MANDAP_2.jpeg" 
+            alt="Expansive open-air courtyard at Villa delle Rose tailored for civil ceremonies and Indian religious rituals with traditional Mandap" 
+            class="w-full h-[300px] sm:h-[430px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
+          />
+          <div class="absolute top-4 right-4 bg-forest/85 backdrop-blur-md text-goldLight px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-widest border border-gold/40 flex items-center gap-2">
+            <i class="fa-solid fa-expand"></i>
+            <span>Mandap &amp; Floral Styling</span>
+          </div>
+        </div>
+
+        <!-- Two-Column Ceremony Highlights -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-cream p-6 rounded-2xl border border-gold/25">
+            <div class="w-10 h-10 rounded-full bg-forest text-gold flex items-center justify-center mb-4">
+              <i class="fa-solid fa-ring"></i>
+            </div>
+            <h3 class="font-serif text-2xl text-forest font-semibold mb-2">Romantic Civil &amp; Symbolic Vows</h3>
+            <p class="text-sm text-charcoal/85 leading-relaxed">
+              The sweeping open-air courtyard welcomes <strong>civil and symbolic ceremonies</strong> with effortless grace, offering a dramatic floral aisle, tailored guest seating, and the picturesque facade and woodlands as a natural backdrop.
+            </p>
+          </div>
+
+          <div class="bg-cream p-6 rounded-2xl border border-gold/25">
+            <div class="w-10 h-10 rounded-full bg-terracotta text-ivory flex items-center justify-center mb-4">
+              <i class="fa-solid fa-dharmachakra"></i>
+            </div>
+            <h3 class="font-serif text-2xl text-forest font-semibold mb-2">Grand Indian Religious Rituals</h3>
+            <p class="text-sm text-charcoal/85 leading-relaxed">
+              Generous, airy proportions allow for <strong>authentic Indian wedding ceremonies</strong> featuring a custom <strong>Mandap</strong>, ceremonial thrones, sacred fire arrangements, and lush floral garlands in a warm, welcoming setting.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PAGE 4: THE WOODEN GAZEBO & AL FRESCO DINING
+    ========================================================= -->
+    <section id="page-4" class="brochure-page" data-page="4">
+      <div class="p-6 sm:p-12 bg-ivory">
+        <!-- Chapter Header -->
+        <div class="flex items-center justify-between border-b border-gold/30 pb-4 mb-7">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold font-semibold">04 • The Wooden Gazebo &amp; Al Fresco Dining</span>
+          <span class="font-serif italic text-sm text-muted">Gala Banquets, Indian Decor &amp; Candlelight</span>
+        </div>
+
+        <!-- Page 4 Title -->
+        <div class="max-w-3xl mb-6">
+          <h2 class="font-serif text-3xl sm:text-5xl text-forest font-semibold leading-tight">
+            The Wooden Gazebo: Enchanting Al Fresco Gala Dinners
+          </h2>
+          <p class="font-serif italic text-lg sm:text-xl text-terracotta mt-2">
+            An architectural timber pergola draped in flowing fabrics for candlelit Mediterranean banquets and vibrant Indian feasts.
+          </p>
+        </div>
+
+        <p class="text-sm sm:text-base text-charcoal/90 leading-relaxed mb-7">
+          Our signature <strong>wooden pergola gazebo ("Il Gazebo")</strong> elevates open-air dining into an unforgettable sensory experience—seamlessly transforming from refined Mediterranean tablescapes aglow with taper candles to opulent Indian receptions dressed in burgundy, gold, marigold garlands, and flickering <em>diya</em> lamps.
+        </p>
+
+        <!-- Gazebo Photo Gallery (GAZEBO_2.jpg & CENA OCCIDENTALE.jpg) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-7">
+          <div onclick="openLightbox('GAZEBO_2.jpg', 'The Wooden Gazebo — Joyful banquet beneath flowing drapery')" class="relative rounded-2xl overflow-hidden shadow-lg border border-gold/30 group cursor-pointer">
+            <img 
+              data-media-key="GAZEBO_2.jpg"
+              src="GAZEBO_2.jpg" 
+              alt="Wooden pergola gazebo with flowing drapery for an open-air gala dinner and Indian reception at Villa delle Rose" 
+              class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            <div class="absolute top-3 right-3 bg-forest/75 text-ivory px-2.5 py-1 rounded-full text-[11px] flex items-center gap-1 backdrop-blur-sm">
+              <i class="fa-solid fa-expand text-goldLight"></i>
+              <span>Zoom</span>
+            </div>
+            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-forest/90 to-transparent p-4">
+              <span class="text-[11px] uppercase tracking-widest text-goldLight block">GAZEBO_2.jpg • Reception &amp; Drapery</span>
+              <p class="text-ivory text-xs font-medium">Warm conviviality beneath the timber beams and sunlit canopies</p>
+            </div>
+          </div>
+
+          <div onclick="openLightbox('CENA OCCIDENTALE.jpg', 'The Wooden Gazebo — Candlelit Mediterranean mise en place')" class="relative rounded-2xl overflow-hidden shadow-lg border border-gold/30 group cursor-pointer">
+            <img 
+              data-media-key="CENA OCCIDENTALE.jpg"
+              src="CENA%20OCCIDENTALE.jpg" 
+              alt="Elegant candlelit dinner tables styled beneath the wooden gazebo at Villa delle Rose" 
+              class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            <div class="absolute top-3 right-3 bg-forest/75 text-ivory px-2.5 py-1 rounded-full text-[11px] flex items-center gap-1 backdrop-blur-sm">
+              <i class="fa-solid fa-expand text-goldLight"></i>
+              <span>Zoom</span>
+            </div>
+            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-forest/90 to-transparent p-4">
+              <span class="text-[11px] uppercase tracking-widest text-goldLight block">Candlelit Mise en Place</span>
+              <p class="text-ivory text-xs font-medium">Timeless Italian elegance surrounded by park foliage</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Embedded Video / Preview Scene: GAZEBO1.mp4 -->
+        <div class="bg-forest rounded-2xl p-4 sm:p-6 text-ivory shadow-xl border border-gold/40">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div>
+              <span class="text-[11px] uppercase tracking-[0.22em] text-goldLight flex items-center gap-2">
+                <i class="fa-solid fa-film"></i> Video Showcase • GAZEBO1.mp4
+              </span>
+              <h3 class="font-serif text-xl sm:text-2xl text-ivory">Burgundy &amp; Gold Tablescape, Marigold Garlands &amp; Diya Lamps</h3>
+            </div>
+            <span id="gazeboVideoBadge" class="text-[11px] px-3 py-1 rounded-full bg-forestLight border border-gold/35 text-goldLight">
+              Built-in Scene Preview
+            </span>
+          </div>
+
+          <div class="relative rounded-xl overflow-hidden bg-black/70 border border-gold/25 aspect-video">
+            <!-- Immediate high-resolution visual scene for GAZEBO1.mp4 until real video file is linked -->
+            <img 
+              id="gazeboVideoScenePoster"
+              data-media-key="GAZEBO1.mp4"
+              src="GAZEBO_2.jpg"
+              alt="Video preview scene for GAZEBO1.mp4: round burgundy and gold banquet table, cascading orange marigold garlands, diya lamps, and timber pergola with white drapery"
+              class="w-full h-full object-cover"
+            />
+            <video 
+              id="gazeboVideo"
+              class="w-full h-full object-cover hidden"
+              controls
+              playsinline
+              preload="metadata"
+            >
+              <source id="gazeboVideoSource" src="GAZEBO1.mp4" type="video/mp4" />
+              Your browser does not support HTML5 video playback.
+            </video>
+          </div>
+
+          <div class="mt-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ivory/80">
+            <p>
+              Scene highlight: embroidered burgundy &amp; gold linens, cascading <em>marigold</em> blooms, flickering <em>diya</em> lamps, and flowing canopy sails.
+            </p>
+            <button onclick="toggleMediaModal()" class="no-print px-3.5 py-2 rounded-lg bg-gold/20 hover:bg-gold/30 border border-gold/45 text-goldLight font-medium shrink-0 transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-upload"></i>
+              <span>Link GAZEBO1.mp4</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PAGE 5: THE COUNTRY CHURCH & EVENING ATMOSPHERE
+    ========================================================= -->
+    <section id="page-5" class="brochure-page" data-page="5">
+      <div class="p-6 sm:p-12 bg-ivory">
+        <!-- Chapter Header -->
+        <div class="flex items-center justify-between border-b border-gold/30 pb-4 mb-7">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold font-semibold">05 • The Country Church &amp; Evening Atmosphere</span>
+          <span class="font-serif italic text-sm text-muted">Jasmine Blossoms, Fairy Lights &amp; Lanterns</span>
+        </div>
+
+        <!-- Page 5 Title -->
+        <div class="max-w-3xl mb-7">
+          <h2 class="font-serif text-3xl sm:text-5xl text-forest font-semibold leading-tight">
+            The Country Church &amp; Magical Evening Atmosphere
+          </h2>
+          <p class="font-serif italic text-lg sm:text-xl text-terracotta mt-2">
+            An intimate stone Country Church blanketed in fragrant white jasmine blossoms, paired with starlit courtyard celebrations under warm fairy lights.
+          </p>
+        </div>
+
+        <!-- Primary Hero Photo of the Country Church -->
+        <div onclick="openLightbox('COUNTRY CHURCH.jpg', 'The Country Church at Villa delle Rose — Stone chapel enveloped in blooming white jasmine flowers')" class="relative rounded-2xl overflow-hidden shadow-xl border border-gold/30 mb-8 group cursor-pointer">
+          <img 
+            data-media-key="COUNTRY CHURCH.jpg"
+            src="COUNTRY%20CHURCH.jpg" 
+            alt="Charming stone Country Church covered in blooming white climbing jasmine flowers with a rose window, bell tower, and wooden arched doorway" 
+            class="w-full h-[320px] sm:h-[440px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
+          />
+          <div class="absolute top-4 right-4 bg-forest/85 backdrop-blur-md text-goldLight px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-widest border border-gold/40 flex items-center gap-2">
+            <i class="fa-solid fa-expand"></i>
+            <span>La Country Church • Zoom</span>
+          </div>
+          <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-forest/95 via-forest/45 to-transparent p-5">
+            <span class="text-[11px] uppercase tracking-[0.2em] text-goldLight block">La Country Church • Romantic Sanctuary</span>
+            <p class="text-ivory text-sm font-serif italic mt-0.5">
+              Stone architecture, circular rose window, and cascading white blossoms in the quiet woodlands of Monticchio.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-7 items-stretch">
+          <!-- Left Column: Country Church Story + Evening Atmosphere Story -->
+          <div class="md:col-span-6 flex flex-col justify-between space-y-6">
+            <!-- Country Church Dedicated Box -->
+            <div class="bg-forest text-ivory rounded-2xl p-6 sm:p-7 shadow-xl border border-gold/40 relative overflow-hidden">
+              <svg class="absolute right-3 bottom-3 w-28 h-28 text-gold/15 pointer-events-none" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M25 105 V55 C25 32 60 18 60 18 C60 18 95 32 95 55 V105 Z" />
+                <path d="M44 105 V68 C44 56 60 48 60 48 C60 48 76 56 76 68 V105" />
+                <line x1="60" y1="6" x2="60" y2="18" />
+                <line x1="55" y1="11" x2="65" y2="11" />
+              </svg>
+
+              <div class="inline-flex items-center gap-2 text-goldLight text-xs uppercase tracking-[0.2em] mb-3">
+                <i class="fa-solid fa-church"></i>
+                Intimate &amp; Poetic Sanctuary
+              </div>
+              <h3 class="font-serif text-2xl sm:text-3xl text-ivory font-semibold mb-3">
+                La Country Church
+              </h3>
+              <p class="text-sm text-ivory/90 leading-relaxed mb-4">
+                Tucked within the tranquil woodland grounds of Monticchio, our charming stone <strong>Country Church</strong>—adorned with a classic rose window, bell tower, and fragrant white climbing flowers—offers an intimate, soulful setting for romantic blessings, heartfelt vows, and editorial couple portraits.
+              </p>
+              <div class="pt-3 border-t border-gold/25 flex flex-wrap gap-2 text-[11px] text-goldLight">
+                <span class="px-3 py-1 rounded-full bg-forestLight border border-gold/30">Blooming Jasmine Facade</span>
+                <span class="px-3 py-1 rounded-full bg-forestLight border border-gold/30">Romantic Blessings</span>
+                <span class="px-3 py-1 rounded-full bg-forestLight border border-gold/30">Editorial Portraits</span>
+              </div>
+            </div>
+
+            <!-- Evening Courtyard Atmosphere Box -->
+            <div class="bg-cream rounded-2xl p-6 border border-gold/30">
+              <h3 class="font-serif text-2xl text-forest font-semibold mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-sparkles text-gold text-base"></i>
+                Evenings Aglow with Fairy Lights &amp; Lanterns
+              </h3>
+              <p class="text-sm text-charcoal/85 leading-relaxed">
+                As twilight falls over the Vulture hills, the courtyard transforms with <strong>warm overhead fairy lights, glowing lanterns, and atmospheric corners</strong>—setting the stage for twilight aperitifs, dessert tastings, and dancing under the stars.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Column: Evening Courtyard & Lanterns Photo -->
+          <div class="md:col-span-6">
+            <div onclick="openLightbox('LANTERNE.jpeg', 'Evening atmosphere at Villa delle Rose — Warm fairy lights, glowing lanterns, and enchanting corners')" class="relative h-full min-h-[380px] rounded-2xl overflow-hidden shadow-xl border border-gold/30 group cursor-pointer">
+              <img 
+                data-media-key="LANTERNE.jpeg"
+                src="LANTERNE.jpeg" 
+                alt="Evening celebration at Villa delle Rose illuminated by warm fairy lights and glowing lanterns" 
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+              />
+              <div class="absolute top-3 right-3 bg-forest/75 text-ivory px-2.5 py-1 rounded-full text-[11px] flex items-center gap-1 backdrop-blur-sm">
+                <i class="fa-solid fa-expand text-goldLight"></i>
+                <span>Zoom</span>
+              </div>
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-forest/95 via-forest/50 to-transparent p-5">
+                <span class="text-[11px] uppercase tracking-[0.2em] text-goldLight block">Evening Atmosphere • Lanterns &amp; Fairy Lights</span>
+                <p class="text-ivory text-sm font-serif italic mt-0.5">
+                  Enchanting twilight moments illuminated beneath the trees.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PAGE 6: GETTING HERE, CONTACTS & QR CODE
+    ========================================================= -->
+    <section id="page-6" class="brochure-page" data-page="6">
+      <div class="p-6 sm:p-12 bg-ivory">
+        <!-- Chapter Header -->
+        <div class="flex items-center justify-between border-b border-gold/30 pb-4 mb-7">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold font-semibold">06 • Getting Here, Contacts &amp; QR Code</span>
+          <span class="font-serif italic text-sm text-muted">HC Eventi • Villa delle Rose</span>
+        </div>
+
+        <!-- Page 6 Title -->
+        <div class="max-w-3xl mb-7">
+          <h2 class="font-serif text-3xl sm:text-5xl text-forest font-semibold leading-tight">
+            Destination Weddings &amp; Bespoke Events
+          </h2>
+          <p class="font-serif italic text-lg sm:text-xl text-terracotta mt-2">
+            Curated by <strong>HC Eventi — Francesco Maria Mastrorazio</strong>, Certified Wedding Planner &amp; Destination Specialist.
+          </p>
+        </div>
+
+        <!-- Key Highlights Summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <div class="bg-cream p-4 rounded-2xl border border-gold/25 text-center">
+            <i class="fa-solid fa-crown text-gold text-xl mb-2"></i>
+            <h3 class="font-serif text-lg font-semibold text-forest">Destination Weddings</h3>
+            <p class="text-xs text-muted mt-1">Tailored planning &amp; multi-day hospitality for international couples and guests.</p>
+          </div>
+          <div class="bg-cream p-4 rounded-2xl border border-gold/25 text-center">
+            <i class="fa-solid fa-layer-group text-gold text-xl mb-2"></i>
+            <h3 class="font-serif text-lg font-semibold text-forest">Courtyard, Gazebo &amp; Church</h3>
+            <p class="text-xs text-muted mt-1">Civil or Indian Mandap rituals, open-air gala dining, and country church.</p>
+          </div>
+          <div class="bg-cream p-4 rounded-2xl border border-gold/25 text-center">
+            <i class="fa-solid fa-mountain-sun text-gold text-xl mb-2"></i>
+            <h3 class="font-serif text-lg font-semibold text-forest">Vulture Regional Park</h3>
+            <p class="text-xs text-muted mt-1">Monticchio, Basilicata: volcanic lakes, woodlands, and timeless Italian beauty.</p>
+          </div>
+        </div>
+
+        <!-- Dedicated Section: Getting Here — Airport Connections -->
+        <div class="bg-cream rounded-2xl p-5 sm:p-6 border border-gold/35 mb-8 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gold/20 pb-3.5 mb-4">
+            <div>
+              <span class="text-[10px] uppercase tracking-[0.22em] text-gold font-semibold block">Seamless Travel for International Guests</span>
+              <h3 class="font-serif text-2xl text-forest font-semibold flex items-center gap-2">
+                <i class="fa-solid fa-plane-departure text-gold text-base"></i>
+                Getting Here — Airport Connections
+              </h3>
+            </div>
+            <span class="text-xs text-muted italic">Approximate driving distances &amp; times to Monticchio (PZ)</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Salerno Airport -->
+            <div class="bg-ivory rounded-xl p-4 border border-gold/30 flex flex-col justify-between">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="inline-block px-2 py-0.5 rounded-md bg-forest text-goldLight text-[10px] font-semibold tracking-wider uppercase mb-1.5">QSR • Campania</span>
+                  <h4 class="font-serif text-lg font-semibold text-forest leading-snug">Salerno-Costa d’Amalfi Airport</h4>
+                </div>
+                <i class="fa-solid fa-car-side text-gold/80 text-sm mt-1"></i>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-gold/20 flex items-baseline justify-between">
+                <span class="text-sm font-semibold text-forest">~115 km</span>
+                <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-gold/20 text-forest">1h 30m</span>
+              </div>
+            </div>
+
+            <!-- Bari Airport -->
+            <div class="bg-ivory rounded-xl p-4 border border-gold/30 flex flex-col justify-between">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="inline-block px-2 py-0.5 rounded-md bg-forest text-goldLight text-[10px] font-semibold tracking-wider uppercase mb-1.5">BRI • Puglia</span>
+                  <h4 class="font-serif text-lg font-semibold text-forest leading-snug">Bari Karol Wojtyła Airport</h4>
+                </div>
+                <i class="fa-solid fa-car-side text-gold/80 text-sm mt-1"></i>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-gold/20 flex items-baseline justify-between">
+                <span class="text-sm font-semibold text-forest">~135 km</span>
+                <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-gold/20 text-forest">1h 45m</span>
+              </div>
+            </div>
+
+            <!-- Naples Airport -->
+            <div class="bg-ivory rounded-xl p-4 border border-gold/30 flex flex-col justify-between">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="inline-block px-2 py-0.5 rounded-md bg-forest text-goldLight text-[10px] font-semibold tracking-wider uppercase mb-1.5">NAP • International Hub</span>
+                  <h4 class="font-serif text-lg font-semibold text-forest leading-snug">Naples Capodichino International Airport</h4>
+                </div>
+                <i class="fa-solid fa-car-side text-gold/80 text-sm mt-1"></i>
+              </div>
+              <div class="mt-3 pt-2.5 border-t border-gold/20 flex items-baseline justify-between">
+                <span class="text-sm font-semibold text-forest">~165 km</span>
+                <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-gold/20 text-forest">2h 00m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Contact Buttons + Live QR Code Generator Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-stretch">
+          
+          <!-- Direct Contact Actions & Map -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-4">
+            <div class="bg-cream rounded-2xl p-6 border border-gold/30 space-y-3.5">
+              <div class="border-b border-gold/20 pb-3 mb-2">
+                <span class="text-[10px] uppercase tracking-[0.22em] text-gold font-semibold block">Certified Wedding Planner &amp; Destination Specialist</span>
+                <h3 class="font-serif text-2xl text-forest font-semibold">HC Eventi — Francesco Maria Mastrorazio</h3>
+              </div>
+
+              <!-- WhatsApp -->
+              <a href="https://wa.me/393516100095?text=Hello%20Francesco%2C%20I%20would%20love%20to%20receive%20more%20details%20about%20hosting%20a%20destination%20wedding%20or%20private%20event%20at%20Villa%20delle%20Rose%20(Monticchio)." target="_blank" rel="noopener noreferrer" class="w-full p-3.5 rounded-xl bg-forest hover:bg-forestLight text-ivory transition flex items-center justify-between shadow-sm group">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-gold/20 text-goldLight flex items-center justify-center text-lg">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </span>
+                  <div>
+                    <span class="text-[11px] uppercase tracking-wider text-goldLight block">Phone &amp; WhatsApp</span>
+                    <span class="text-sm font-medium">+39 351 610 0095</span>
+                  </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-goldLight group-hover:translate-x-0.5 transition"></i>
+              </a>
+
+              <!-- Email -->
+              <a href="mailto:hceventiatella@gmail.com?subject=Destination%20Wedding%20Inquiry%20-%20Villa%20delle%20Rose%20Monticchio" class="w-full p-3.5 rounded-xl bg-ivory hover:bg-white text-forest border border-gold/35 transition flex items-center justify-between shadow-sm group">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-terracotta/15 text-terracotta flex items-center justify-center text-base">
+                    <i class="fa-regular fa-envelope"></i>
+                  </span>
+                  <div>
+                    <span class="text-[11px] uppercase tracking-wider text-muted block">Email</span>
+                    <span class="text-sm font-medium break-all">hceventiatella@gmail.com</span>
+                  </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-muted group-hover:text-forest transition"></i>
+              </a>
+
+              <!-- Instagram -->
+              <a href="https://www.instagram.com/hceventi" target="_blank" rel="noopener noreferrer" class="w-full p-3.5 rounded-xl bg-ivory hover:bg-white text-forest border border-gold/35 transition flex items-center justify-between shadow-sm group">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-gold/20 text-gold flex items-center justify-center text-lg">
+                    <i class="fa-brands fa-instagram"></i>
+                  </span>
+                  <div>
+                    <span class="text-[11px] uppercase tracking-wider text-muted block">Instagram</span>
+                    <span class="text-sm font-medium">@hceventi</span>
+                  </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-muted group-hover:text-forest transition"></i>
+              </a>
+
+              <!-- Google Maps Directions Monticchio Laghi -->
+              <a href="https://www.google.com/maps/search/?api=1&query=Monticchio+Laghi+Basilicata+Villa+delle+Rose" target="_blank" rel="noopener noreferrer" class="w-full p-3.5 rounded-xl bg-gold/20 hover:bg-gold/30 text-forest border border-gold/50 transition flex items-center justify-between group">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-full bg-forest text-gold flex items-center justify-center text-base">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </span>
+                  <div>
+                    <span class="text-[11px] uppercase tracking-wider text-forest/80 block">Location &amp; Map</span>
+                    <span class="text-sm font-semibold">Monticchio Laghi • Basilicata, Italy</span>
+                  </div>
+                </div>
+                <span class="text-xs font-semibold underline">Open Map</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Digital QR Code Generator & Download -->
+          <div class="lg:col-span-5 bg-forest text-ivory rounded-2xl p-6 border border-gold/40 shadow-xl flex flex-col items-center justify-between text-center">
+            <div>
+              <span class="text-[11px] uppercase tracking-[0.22em] text-goldLight block mb-1">Digital Sharing</span>
+              <h3 class="font-serif text-2xl text-ivory font-semibold">Brochure QR Code</h3>
+              <p class="text-xs text-ivory/80 mt-1">
+                Download the QR Code as a high-res PNG for invitations and print collateral, or save the full brochure as a PDF.
+              </p>
+            </div>
+
+            <!-- Live Generated QR Code Box -->
+            <div class="my-4 p-3.5 bg-ivory rounded-2xl shadow-inner border-2 border-gold inline-flex items-center justify-center">
+              <div id="qrcodeCanvas" class="w-40 h-40 flex items-center justify-center"></div>
+            </div>
+
+            <!-- Custom Target URL Input & Export Buttons -->
+            <div class="w-full space-y-2.5 no-print">
+              <div class="text-left">
+                <label for="qrUrlInput" class="text-[10px] uppercase tracking-wider text-goldLight block mb-1">QR Destination URL:</label>
+                <div class="flex gap-1.5">
+                  <input 
+                    id="qrUrlInput" 
+                    type="url" 
+                    placeholder="https://yourdomain.com/villa-delle-rose" 
+                    class="w-full px-3 py-1.5 rounded-lg bg-forestLight border border-gold/40 text-ivory text-xs focus:outline-none focus:border-gold"
+                  />
+                  <button onclick="updateQRCode()" class="px-3 py-1.5 rounded-lg bg-gold text-forest font-semibold text-xs hover:bg-goldLight transition shrink-0">
+                    Update
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 pt-1">
+                <button onclick="downloadQRCode()" class="py-2.5 px-3 rounded-xl bg-gold hover:bg-goldLight text-forest font-semibold text-xs transition flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-download"></i>
+                  <span>Download QR Code PNG</span>
+                </button>
+                <button onclick="window.print()" class="py-2.5 px-3 rounded-xl bg-forestLight hover:bg-forestLight/80 text-ivory border border-gold/40 font-medium text-xs transition flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <span>Save PDF</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR (Previous / Next Controls + Page Dots) -->
+  <footer class="no-print w-full max-w-4xl bg-cream border-t sm:border border-gold/30 sm:rounded-b-2xl px-4 py-3.5 flex items-center justify-between sticky bottom-0 z-40 shadow-lg">
+    <button id="prevBtn" onclick="prevPage()" class="px-4 py-2.5 rounded-full bg-ivory hover:bg-white text-forest border border-gold/40 text-xs font-semibold uppercase tracking-wider transition flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none">
+      <i class="fa-solid fa-chevron-left"></i>
+      <span>Previous</span>
+    </button>
+
+    <!-- Page Indicator Dots (1 - 6) -->
+    <div class="flex items-center gap-2" role="tablist" aria-label="Brochure pages">
+      <button onclick="goToPage(1)" class="page-dot w-2.5 h-2.5 rounded-full bg-gold transition-all" data-dot="1" aria-label="Page 1"></button>
+      <button onclick="goToPage(2)" class="page-dot w-2.5 h-2.5 rounded-full bg-forest/25 transition-all" data-dot="2" aria-label="Page 2"></button>
+      <button onclick="goToPage(3)" class="page-dot w-2.5 h-2.5 rounded-full bg-forest/25 transition-all" data-dot="3" aria-label="Page 3"></button>
+      <button onclick="goToPage(4)" class="page-dot w-2.5 h-2.5 rounded-full bg-forest/25 transition-all" data-dot="4" aria-label="Page 4"></button>
+      <button onclick="goToPage(5)" class="page-dot w-2.5 h-2.5 rounded-full bg-forest/25 transition-all" data-dot="5" aria-label="Page 5"></button>
+      <button onclick="goToPage(6)" class="page-dot w-2.5 h-2.5 rounded-full bg-forest/25 transition-all" data-dot="6" aria-label="Page 6"></button>
+    </div>
+
+    <button id="nextBtn" onclick="nextPage()" class="px-4 py-2.5 rounded-full bg-forest hover:bg-forestLight text-ivory text-xs font-semibold uppercase tracking-wider transition flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none">
+      <span>Next</span>
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </footer>
+
+  <!-- TABLE OF CONTENTS MODAL (6 PAGES) -->
+  <div id="tocModal" class="no-print fixed inset-0 z-50 hidden bg-forest/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) toggleTocModal()">
+    <div class="bg-ivory border border-gold/40 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-gold/25 pb-4 mb-5">
+        <div>
+          <span class="text-[10px] uppercase tracking-[0.25em] text-gold font-semibold">Table of Contents</span>
+          <h3 class="font-serif text-2xl text-forest font-semibold">Villa delle Rose</h3>
+        </div>
+        <button onclick="toggleTocModal()" aria-label="Close Table of Contents" class="w-9 h-9 rounded-full bg-cream text-forest hover:bg-gold/20 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <nav class="space-y-2.5">
+        <button onclick="goToPage(1); toggleTocModal()" class="w-full text-left p-3 rounded-xl hover:bg-cream transition flex items-center justify-between group">
+          <div>
+            <span class="text-[11px] text-gold font-semibold uppercase tracking-wider">Page 01</span>
+            <p class="font-serif text-lg text-forest font-medium">Cover — Exclusive Destination in Basilicata</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-muted group-hover:text-forest"></i>
+        </button>
+        <button onclick="goToPage(2); toggleTocModal()" class="w-full text-left p-3 rounded-xl hover:bg-cream transition flex items-center justify-between group">
+          <div>
+            <span class="text-[11px] text-gold font-semibold uppercase tracking-wider">Page 02</span>
+            <p class="font-serif text-lg text-forest font-medium">The Estate &amp; Vulture Regional Park</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-muted group-hover:text-forest"></i>
+        </button>
+        <button onclick="goToPage(3); toggleTocModal()" class="w-full text-left p-3 rounded-xl hover:bg-cream transition flex items-center justify-between group">
+          <div>
+            <span class="text-[11px] text-gold font-semibold uppercase tracking-wider">Page 03</span>
+            <p class="font-serif text-lg text-forest font-medium">The Courtyard: Civil Vows &amp; Indian Mandap</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-muted group-hover:text-forest"></i>
+        </button>
+        <button onclick="goToPage(4); toggleTocModal()" class="w-full text-left p-3 rounded-xl hover:bg-cream transition flex items-center justify-between group">
+          <div>
+            <span class="text-[11px] text-gold font-semibold uppercase tracking-wider">Page 04</span>
+            <p class="font-serif text-lg text-forest font-medium">The Wooden Gazebo &amp; Al Fresco Dining</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-muted group-hover:text-forest"></i>
+        </button>
+        <button onclick="goToPage(5); toggleTocModal()" class="w-full text-left p-3 rounded-xl hover:bg-cream transition flex items-center justify-between group">
+          <div>
+            <span class="text-[11px] text-gold font-semibold uppercase tracking-wider">Page 05</span>
+            <p class="font-serif text-lg text-forest font-medium">The Country Church &amp; Evening Atmosphere</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-muted group-hover:text-forest"></i>
+        </button>
+        <button onclick="goToPage(6); toggleTocModal()" class="w-full text-left p-3 rounded-xl hover:bg-cream transition flex items-center justify-between group">
+          <div>
+            <span class="text-[11px] text-gold font-semibold uppercase tracking-wider">Page 06</span>
+            <p class="font-serif text-lg text-forest font-medium">Getting Here, Contacts &amp; QR Code</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-muted group-hover:text-forest"></i>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- MEDIA LOADER & VERIFICATION MODAL -->
+  <div id="mediaModal" class="no-print fixed inset-0 z-50 hidden bg-forest/85 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target === this) toggleMediaModal()">
+    <div class="bg-ivory border border-gold/40 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-gold/25 pb-4 mb-5">
+        <div>
+          <span class="text-[10px] uppercase tracking-[0.25em] text-gold font-semibold">Asset Management &amp; Live Preview</span>
+          <h3 class="font-serif text-2xl text-forest font-semibold">Media Loader &amp; Status</h3>
+        </div>
+        <button onclick="toggleMediaModal()" aria-label="Close Media Loader" class="w-9 h-9 rounded-full bg-cream text-forest hover:bg-gold/20 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p class="text-xs sm:text-sm text-charcoal/85 leading-relaxed mb-4">
+        Every photograph and the <code class="bg-cream px-1.5 py-0.5 rounded border border-gold/25">GAZEBO1.mp4</code> scene are immediately visible via built-in editorial previews. Select one or more local files from your device to bind the real media in real time:
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <label class="cursor-pointer px-4 py-2.5 rounded-xl bg-forest hover:bg-forestLight text-ivory text-xs font-semibold uppercase tracking-wider transition flex items-center gap-2 shadow">
+          <i class="fa-solid fa-folder-open text-goldLight"></i>
+          <span>Select Files from Computer</span>
+          <input id="mediaFileInput" type="file" accept="image/*,video/mp4,video/*" multiple class="hidden" onchange="handleMediaFiles(event)" />
+        </label>
+        <button onclick="resetMediaToFallback()" class="px-4 py-2.5 rounded-xl bg-cream hover:bg-white text-forest border border-gold/40 text-xs font-semibold transition flex items-center gap-2">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Restore Built-in Previews</span>
+        </button>
+      </div>
+
+      <!-- Status list of all 8 required media assets -->
+      <div id="mediaStatusList" class="space-y-2 text-xs"></div>
+    </div>
+  </div>
+
+  <!-- FULL-SCREEN LIGHTBOX ZOOM MODAL -->
+  <div id="lightboxModal" class="no-print fixed inset-0 z-50 hidden bg-forest/95 backdrop-blur-md flex items-center justify-center p-4" onclick="if(event.target === this) closeLightbox()">
+    <div class="max-w-4xl w-full bg-forest border border-gold/40 rounded-3xl overflow-hidden shadow-2xl">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-gold/25">
+        <p id="lightboxCaption" class="font-serif text-lg sm:text-xl text-ivory truncate pr-4">Photo Preview</p>
+        <button onclick="closeLightbox()" aria-label="Close Zoom" class="w-9 h-9 rounded-full bg-forestLight text-goldLight hover:bg-gold hover:text-forest flex items-center justify-center transition shrink-0">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="bg-black/60 flex items-center justify-center p-2 sm:p-4 max-h-[78vh]">
+        <img id="lightboxImage" src="" alt="Enlarged photo of Villa delle Rose" class="max-h-[70vh] w-auto max-w-full rounded-xl object-contain shadow-lg" />
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-INTRUSIVE TOAST NOTIFICATION -->
+  <div id="toastNotice" class="no-print fixed bottom-20 left-1/2 -translate-x-1/2 z-50 hidden bg-forest text-ivory border border-gold/50 px-5 py-2.5 rounded-full text-xs font-medium shadow-xl tracking-wide"></div>
+
+  <script>
+    // Global brochure state
+    let currentPage = 1;
+    const totalPages = 6;
+    let qrInstance = null;
+    const loadedObjectUrls = {};
+
+    // Catalog of the 8 required assets with high-resolution SVG/Canvas editorial fallbacks
+    const MEDIA_CATALOG = [
+      {
+        key: 'VILLA DELLE ROSE FRONTALE.jpg',
+        label: 'Page 1 • Cover Estate Facade',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#1D3327',
+          bgBottom: '#2D4B3B',
+          accent: '#D4B475',
+          title: 'VILLA DELLE ROSE',
+          subtitle: 'Monticchio • Vulture Regional Park',
+          tag: 'HISTORIC ESTATE IN BASILICATA',
+          motif: 'villa'
+        })
+      },
+      {
+        key: 'tramonto.jpg',
+        label: 'Page 2 • Vulture Park Golden Hour',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#3A4A2E',
+          bgBottom: '#B68D40',
+          accent: '#FBF9F5',
+          title: 'VULTURE REGIONAL PARK',
+          subtitle: 'Golden hour light & panoramic terraces in Monticchio',
+          tag: 'VOLCANIC NATURE & HOSPITALITY',
+          motif: 'sunset'
+        })
+      },
+      {
+        key: 'CORTE CON MANDAP_2.jpeg',
+        label: 'Page 3 • Courtyard with Mandap',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#2D4B3B',
+          bgBottom: '#C57B67',
+          accent: '#FBF9F5',
+          title: 'THE COURTYARD & MANDAP',
+          subtitle: 'Civil vows & traditional Indian religious ceremonies',
+          tag: 'OPEN-AIR FLORAL STYLING',
+          motif: 'mandap'
+        })
+      },
+      {
+        key: 'GAZEBO_2.jpg',
+        label: 'Page 4 • Wooden Gazebo & Drapery',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#5C3A21',
+          bgBottom: '#B68D40',
+          accent: '#FBF9F5',
+          title: 'THE WOODEN GAZEBO',
+          subtitle: 'Timber pergola & flowing canopies for gala banquets',
+          tag: 'AL FRESCO DINING',
+          motif: 'gazebo'
+        })
+      },
+      {
+        key: 'CENA OCCIDENTALE.jpg',
+        label: 'Page 4 • Candlelit Gala Tables',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#1D3327',
+          bgBottom: '#6E7F59',
+          accent: '#FBF9F5',
+          title: 'CANDLELIT GALA DINNERS',
+          subtitle: 'Mediterranean mise en place beneath the gazebo',
+          tag: 'TIMELESS ITALIAN ELEGANCE',
+          motif: 'candle'
+        })
+      },
+      {
+        key: 'GAZEBO1.mp4',
+        label: 'Page 4 • Video Showcase (Marigold & Diya)',
+        type: 'video',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#4A151B',
+          bgBottom: '#B68D40',
+          accent: '#FF9E2C',
+          title: 'GAZEBO1.MP4 SHOWCASE',
+          subtitle: 'Burgundy & gold table • Marigold garlands • Diya lamps',
+          tag: 'VIDEO SCENE PREVIEW',
+          motif: 'marigold'
+        })
+      },
+      {
+        key: 'COUNTRY CHURCH.jpg',
+        label: 'Page 5 • The Country Church (Jasmine Blossoms)',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#243B2E',
+          bgBottom: '#7E8D69',
+          accent: '#FBF9F5',
+          title: 'LA COUNTRY CHURCH',
+          subtitle: 'Stone chapel enveloped in blooming white jasmine flowers',
+          tag: 'INTIMATE WOODLAND SANCTUARY',
+          motif: 'church'
+        })
+      },
+      {
+        key: 'LANTERNE.jpeg',
+        label: 'Page 5 • Evening Lights & Lanterns',
+        type: 'image',
+        fallbackSrc: createSceneDataUrl({
+          bgTop: '#122219',
+          bgBottom: '#2D4B3B',
+          accent: '#D4B475',
+          title: 'TWILIGHT & LANTERNS',
+          subtitle: 'Warm fairy lights, glowing lanterns & starlit gardens',
+          tag: 'EVENING ATMOSPHERE',
+          motif: 'lantern'
+        })
+      }
+    ];
+
+    // Generates an editorial SVG scene encoded as Data URL
+    function createSceneDataUrl({ bgTop, bgBottom, accent, title, subtitle, tag, motif }) {
+      let motifSvg = '';
+      if (motif === 'mandap') {
+        motifSvg = `<path d="M360 440 V210 H540 V440 M335 210 H565" stroke="${accent}" stroke-width="5" fill="none" opacity="0.85"/><circle cx="450" cy="180" r="24" fill="none" stroke="${accent}" stroke-width="3" opacity="0.7"/>`;
+      } else if (motif === 'church') {
+        motifSvg = `<path d="M390 450 V260 L450 195 L510 260 V450 Z" stroke="${accent}" stroke-width="4" fill="none" opacity="0.85"/><circle cx="450" cy="255" r="16" stroke="${accent}" stroke-width="3" fill="none" opacity="0.8"/><path d="M430 450 V375 C430 360 470 360 470 375 V450" stroke="${accent}" stroke-width="3" fill="none" opacity="0.85"/>`;
+      } else if (motif === 'marigold' || motif === 'gazebo') {
+        motifSvg = `<path d="M160 170 Q450 230 740 170 M160 220 Q450 280 740 220" stroke="${accent}" stroke-width="4" fill="none" opacity="0.65"/><circle cx="330" cy="430" r="14" fill="#FF9E2C" opacity="0.85"/><circle cx="450" cy="445" r="16" fill="#FF9E2C" opacity="0.9"/><circle cx="570" cy="430" r="14" fill="#FF9E2C" opacity="0.85"/>`;
+      } else if (motif === 'lantern') {
+        motifSvg = `<rect x="434" y="210" width="32" height="44" rx="6" stroke="${accent}" stroke-width="3.5" fill="none" opacity="0.85"/><circle cx="450" cy="232" r="7" fill="#FFD166"/><line x1="450" y1="160" x2="450" y2="210" stroke="${accent}" stroke-width="2.5" opacity="0.7"/>`;
+      } else {
+        motifSvg = `<circle cx="450" cy="215" r="46" fill="none" stroke="${accent}" stroke-width="2.5" opacity="0.55"/><path d="M220 450 Q450 340 680 450" stroke="${accent}" stroke-width="3" fill="none" opacity="0.5"/>`;
+      }
+
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="${bgTop}"/>
+            <stop offset="100%" stop-color="${bgBottom}"/>
+          </linearGradient>
+        </defs>
+        <rect width="900" height="650" fill="url(#g)"/>
+        <rect x="38" y="38" width="824" height="574" rx="24" fill="none" stroke="${accent}" stroke-opacity="0.35" stroke-width="2"/>
+        ${motifSvg}
+        <text x="450" y="128" text-anchor="middle" fill="${accent}" font-family="sans-serif" font-size="16" letter-spacing="5">${escapeXml(tag)}</text>
+        <text x="450" y="330" text-anchor="middle" fill="#FBF9F5" font-family="Georgia, serif" font-size="44" font-weight="bold" letter-spacing="2">${escapeXml(title)}</text>
+        <text x="450" y="376" text-anchor="middle" fill="#FBF9F5" fill-opacity="0.88" font-family="Georgia, serif" font-style="italic" font-size="22">${escapeXml(subtitle)}</text>
+        <text x="450" y="555" text-anchor="middle" fill="${accent}" fill-opacity="0.85" font-family="sans-serif" font-size="14" letter-spacing="3">VILLA DELLE ROSE • MONTICCHIO (PZ)</text>
+      </svg>`;
+
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    function escapeXml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Applies built-in visual fallback or user-linked file to all matching elements
+    function applyMediaSource(key, objectUrl) {
+      const item = MEDIA_CATALOG.find(m => m.key === key);
+      if (!item) return;
+
+      const resolvedSrc = objectUrl || item.fallbackSrc;
+
+      document.querySelectorAll(`[data-media-key="${CSS.escape(key)}"]`).forEach(el => {
+        if (el.tagName === 'IMG') {
+          el.src = resolvedSrc;
+        }
+      });
+
+      if (key === 'GAZEBO1.mp4') {
+        const videoEl = document.getElementById('gazeboVideo');
+        const sourceEl = document.getElementById('gazeboVideoSource');
+        const posterImg = document.getElementById('gazeboVideoScenePoster');
+        const badgeEl = document.getElementById('gazeboVideoBadge');
+
+        if (objectUrl && videoEl && sourceEl && posterImg) {
+          sourceEl.src = objectUrl;
+          videoEl.load();
+          videoEl.classList.remove('hidden');
+          posterImg.classList.add('hidden');
+          if (badgeEl) badgeEl.textContent = 'Real File Linked';
+        } else if (videoEl && posterImg) {
+          videoEl.pause();
+          videoEl.classList.add('hidden');
+          posterImg.src = item.fallbackSrc;
+          posterImg.classList.remove('hidden');
+          if (badgeEl) badgeEl.textContent = 'Built-in Scene Preview';
+        }
+      }
+    }
+
+    // Probes native relative files (for hosted deployment) or falls back cleanly to built-in previews
+    function initializeMediaSystem() {
+      MEDIA_CATALOG.forEach(item => {
+        const encodedRelativeUrl = encodeURI(item.key);
+        if (item.type === 'image') {
+          const probe = new Image();
+          probe.onload = () => {
+            applyMediaSource(item.key, encodedRelativeUrl);
+          };
+          probe.onerror = () => {
+            applyMediaSource(item.key, null);
+          };
+          probe.src = encodedRelativeUrl;
+        } else {
+          // Probe if GAZEBO1.mp4 exists natively in the same folder when hosted
+          fetch(encodedRelativeUrl, { method: 'HEAD' })
+            .then(res => {
+              if (res.ok) {
+                applyMediaSource(item.key, encodedRelativeUrl);
+              } else {
+                applyMediaSource(item.key, null);
+              }
+            })
+            .catch(() => {
+              applyMediaSource(item.key, null);
+            });
+        }
+      });
+      renderMediaStatusList();
+    }
+
+    // Handles local files selected via the Media Loader modal
+    function handleMediaFiles(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+
+      let matchedCount = 0;
+
+      files.forEach(file => {
+        const cleanName = file.name.trim();
+        let target = MEDIA_CATALOG.find(m => m.key.toLowerCase() === cleanName.toLowerCase());
+
+        // Heuristic matching if filename differs slightly
+        if (!target) {
+          const lower = cleanName.toLowerCase();
+          if (lower.includes('mandap') || lower.includes('corte')) target = MEDIA_CATALOG.find(m => m.key === 'CORTE CON MANDAP_2.jpeg');
+          else if (lower.includes('gazebo') && file.type.startsWith('video/')) target = MEDIA_CATALOG.find(m => m.key === 'GAZEBO1.mp4');
+          else if (lower.includes('gazebo')) target = MEDIA_CATALOG.find(m => m.key === 'GAZEBO_2.jpg');
+          else if (lower.includes('villa') || lower.includes('frontale')) target = MEDIA_CATALOG.find(m => m.key === 'VILLA DELLE ROSE FRONTALE.jpg');
+          else if (lower.includes('church') || lower.includes('chiesa')) target = MEDIA_CATALOG.find(m => m.key === 'COUNTRY CHURCH.jpg');
+          else if (lower.includes('lantern') || lower.includes('sera') || lower.includes('evening')) target = MEDIA_CATALOG.find(m => m.key === 'LANTERNE.jpeg');
+          else if (lower.includes('cena') || lower.includes('occidentale') || lower.includes('candle')) target = MEDIA_CATALOG.find(m => m.key === 'CENA OCCIDENTALE.jpg');
+          else if (lower.includes('tramonto') || lower.includes('sunset') || lower.includes('vulture')) target = MEDIA_CATALOG.find(m => m.key === 'tramonto.jpg');
+        }
+
+        if (target) {
+          if (loadedObjectUrls[target.key]) {
+            URL.revokeObjectURL(loadedObjectUrls[target.key]);
+          }
+          const url = URL.createObjectURL(file);
+          loadedObjectUrls[target.key] = url;
+          applyMediaSource(target.key, url);
+          matchedCount++;
+        }
+      });
+
+      renderMediaStatusList();
+      event.target.value = '';
+      showToast(matchedCount > 0 ? `Linked ${matchedCount} file(s) to the brochure!` : 'Files selected: check the media status list');
+    }
+
+    function resetMediaToFallback() {
+      Object.keys(loadedObjectUrls).forEach(key => {
+        URL.revokeObjectURL(loadedObjectUrls[key]);
+        delete loadedObjectUrls[key];
+        applyMediaSource(key, null);
+      });
+      renderMediaStatusList();
+      showToast('Restored built-in editorial previews');
+    }
+
+    function renderMediaStatusList() {
+      const container = document.getElementById('mediaStatusList');
+      if (!container) return;
+
+      container.innerHTML = MEDIA_CATALOG.map(item => {
+        const isCustom = Boolean(loadedObjectUrls[item.key]);
+        return `
+          <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-cream border border-gold/25">
+            <div class="min-w-0">
+              <p class="font-semibold text-forest truncate">${item.key}</p>
+              <p class="text-[11px] text-muted">${item.label}</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider shrink-0 ${
+              isCustom
+                ? 'bg-forest text-goldLight border border-gold/50'
+                : 'bg-ivory text-charcoal border border-gold/30'
+            }">
+              ${isCustom ? 'Real File Linked' : 'Built-in Preview'}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleMediaModal() {
+      const modal = document.getElementById('mediaModal');
+      if (modal) {
+        modal.classList.toggle('hidden');
+        if (!modal.classList.contains('hidden')) {
+          renderMediaStatusList();
+        }
+      }
+    }
+
+    // Full-screen Lightbox Zoom functions
+    function openLightbox(mediaKey, caption) {
+      const item = MEDIA_CATALOG.find(m => m.key === mediaKey);
+      const src = loadedObjectUrls[mediaKey] || (item ? item.fallbackSrc : mediaKey);
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImage');
+      const cap = document.getElementById('lightboxCaption');
+
+      if (modal && img && cap) {
+        img.src = src;
+        img.alt = caption || mediaKey;
+        cap.textContent = caption || mediaKey;
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Non-intrusive toast message
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotice');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2600);
+    }
+
+    // Navigate to a specific page (1..6)
+    function goToPage(pageNum) {
+      if (pageNum < 1 || pageNum > totalPages) return;
+
+      // Pause video when navigating away from Page 4
+      if (currentPage === 4 && pageNum !== 4) {
+        const video = document.getElementById('gazeboVideo');
+        if (video && !video.paused) {
+          video.pause();
+        }
+      }
+
+      currentPage = pageNum;
+
+      document.querySelectorAll('.brochure-page').forEach(section => {
+        section.classList.remove('active');
+      });
+      const targetPage = document.getElementById(`page-${currentPage}`);
+      if (targetPage) {
+        targetPage.classList.add('active');
+      }
+
+      const counterEl = document.getElementById('headerPageCounter');
+      if (counterEl) counterEl.textContent = `0${currentPage} / 0${totalPages}`;
+
+      document.getElementById('prevBtn').disabled = (currentPage === 1);
+      document.getElementById('nextBtn').disabled = (currentPage === totalPages);
+
+      document.querySelectorAll('.page-dot').forEach(dot => {
+        const dotPage = parseInt(dot.getAttribute('data-dot'), 10);
+        if (dotPage === currentPage) {
+          dot.classList.remove('bg-forest/25', 'w-2.5');
+          dot.classList.add('bg-gold', 'w-7');
+        } else {
+          dot.classList.remove('bg-gold', 'w-7');
+          dot.classList.add('bg-forest/25', 'w-2.5');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) goToPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      if (currentPage > 1) goToPage(currentPage - 1);
+    }
+
+    function toggleTocModal() {
+      const modal = document.getElementById('tocModal');
+      modal.classList.toggle('hidden');
+    }
+
+    // Keyboard navigation (Left/Right arrows + ESC to close modals)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        document.getElementById('tocModal')?.classList.add('hidden');
+        document.getElementById('mediaModal')?.classList.add('hidden');
+        return;
+      }
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+      if (e.key === 'ArrowRight') nextPage();
+      if (e.key === 'ArrowLeft') prevPage();
+    });
+
+    // Horizontal touch swipe support for mobile and tablet
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const container = document.getElementById('brochureContainer');
+
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const touchEndY = e.changedTouches[0].screenY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      if (Math.abs(diffX) > 65 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
+        if (diffX < 0) {
+          nextPage();
+        } else {
+          prevPage();
+        }
+      }
+    }, { passive: true });
+
+    // Generate live QR Code with QRCode.js
+    function initQRCode(urlText) {
+      const qrBox = document.getElementById('qrcodeCanvas');
+      qrBox.innerHTML = '';
+      try {
+        qrInstance = new QRCode(qrBox, {
+          text: urlText,
+          width: 150,
+          height: 150,
+          colorDark: '#1D3327',
+          colorLight: '#FBF9F5',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } catch (err) {
+        console.error('QR generation error:', err);
+      }
+    }
+
+    function updateQRCode() {
+      const input = document.getElementById('qrUrlInput');
+      const customUrl = input.value.trim();
+      if (!customUrl) {
+        showToast('Please enter a valid URL to update the QR Code');
+        return;
+      }
+      initQRCode(customUrl);
+      showToast('QR Code updated with the new link!');
+    }
+
+    function downloadQRCode() {
+      const qrBox = document.getElementById('qrcodeCanvas');
+      const canvas = qrBox.querySelector('canvas');
+      const img = qrBox.querySelector('img');
+      
+      let dataUrl = '';
+      if (canvas) {
+        dataUrl = canvas.toDataURL('image/png');
+      } else if (img && img.src) {
+        dataUrl = img.src;
+      }
+
+      if (dataUrl) {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'QR-Brochure-Villa-delle-Rose-Monticchio.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('QR Code PNG download started!');
+      } else {
+        showToast('Unable to export QR Code');
+      }
+    }
+
+    // Initialize on DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+      goToPage(1);
+      initializeMediaSystem();
+      const defaultUrl = (window.location.href && window.location.href.startsWith('http'))
+        ? window.location.href
+        : 'https://www.instagram.com/hceventi';
+      document.getElementById('qrUrlInput').value = defaultUrl;
+      initQRCode(defaultUrl);
+    });
+  </script>
+</body>
+</html>
